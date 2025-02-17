@@ -1,0 +1,343 @@
+```yaml
+page_id: vision_screen
+page_description: Improved UI for the Vision of Self screen, focusing on visual engagement and actionability.
+inherits_style_from: dashboard_screen # Inherit global styles, then override
+
+style_overrides: # Screen-specific style overrides
+  background_color: background_color_white # Ensure white background if not inherited correctly
+
+elements:
+  header_section: # Section for Title and Subtitle
+    element_id: "vision_header_section"
+    type: "Section"
+    style: "header_section_default" # Define header section styling
+    elements:
+      title_text:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Vision of Self"
+          style: "h1_screen_title" # Larger, more prominent title style
+          alignment: "center"
+      subtitle_text:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Explore and refine your internal landscape"
+          style: "body_large_secondary" # Slightly smaller, secondary style for subtitle
+          alignment: "center"
+        layout_updates:
+          margin_bottom: "2x_spacing_unit"
+
+  vision_components_grid: # Using Grid for card layout - more flexible than just CardList
+    element_id: "vision_components_grid"
+    type: "Grid"
+    columns: 2 # Two columns for the grid layout
+    style: "grid_default" # Define grid styling (e.g., spacing between cards)
+    items: # Array of Vision Component Cards - now richer ListItemCard type
+      - type: "InteractiveCard" # Using InteractiveCard to indicate tappable elements
+        element_id: "narrative_card"
+        card_type: "vision_component" # Custom card type for Vision components
+        interaction: "navigateTo: narrative_detail_screen" # Navigation on card tap
+        style: "vision_component_card_elevated" # Elevated card style with visual cues
+        elements: # Elements within the card
+          icon:
+            element_type: "Icon"
+            icon_code: "icon_personal_narrative_filled" # More visually rich icon - filled style
+            style: "icon_large_primary_color" # Larger, primary color icon
+            layout_updates:
+              margin_bottom: "spacing_unit"
+          title:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Personal Narrative"
+              style: "title_medium_primary_color" # More prominent, primary color title
+              alignment: "center"
+          description:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Your life story & meaning-making"
+              style: "body_small_secondary_color" # Smaller, secondary color description
+              alignment: "center"
+              layout_updates:
+                margin_top: "half_spacing_unit" # Reduced top margin
+
+      - type: "InteractiveCard" # Repeat for each Vision component, adjusting IDs and content
+        element_id: "goals_card"
+        card_type: "vision_component"
+        interaction: "navigateTo: goals_detail_screen"
+        style: "vision_component_card_elevated"
+        elements:
+          icon:
+            element_type: "Icon"
+            icon_code: "icon_goals_filled" # Filled icon style
+            style: "icon_large_primary_color"
+            layout_updates:
+              margin_bottom: "spacing_unit"
+          title:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Goals & Aspirations"
+              style: "title_medium_primary_color"
+              alignment: "center"
+          description:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "What you aim to achieve"
+              style: "body_small_secondary_color"
+              alignment: "center"
+              layout_updates:
+                margin_top: "half_spacing_unit"
+
+      - type: "InteractiveCard"
+        element_id: "values_card"
+        card_type: "vision_component"
+        interaction: "navigateTo: values_detail_screen"
+        style: "vision_component_card_elevated"
+        elements:
+          icon:
+            element_type: "Icon"
+            icon_code: "icon_values_filled" # Filled icon style
+            style: "icon_large_primary_color"
+            layout_updates:
+              margin_bottom: "spacing_unit"
+          title:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Values & Beliefs"
+              style: "title_medium_primary_color"
+              alignment: "center"
+          description:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Your core guiding principles"
+              style: "body_small_secondary_color"
+              alignment: "center"
+              layout_updates:
+                margin_top: "half_spacing_unit"
+
+      - type: "InteractiveCard"
+        element_id: "skills_card"
+        card_type: "vision_component"
+        interaction: "navigateTo: skills_detail_screen"
+        style: "vision_component_card_elevated"
+        elements:
+          icon:
+            element_type: "Icon"
+            icon_code: "icon_skills_filled" # Filled icon style
+            style: "icon_large_primary_color"
+            layout_updates:
+              margin_bottom: "spacing_unit"
+          title:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Skills" # Shortened title for Skills card
+              style: "title_medium_primary_color"
+              alignment: "center"
+          description:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Your abilities & areas for growth" # Shortened description
+              style: "body_small_secondary_color"
+              alignment: "center"
+              layout_updates:
+                margin_top: "half_spacing_unit"
+
+      - type: "InteractiveCard"
+        element_id: "identity_card"
+        card_type: "vision_component"
+        interaction: "navigateTo: identity_detail_screen"
+        style: "vision_component_card_elevated"
+        elements:
+          icon:
+            element_type: "Icon"
+            icon_code: "icon_identity_filled" # Filled icon style
+            style: "icon_large_primary_color"
+            layout_updates:
+              margin_bottom: "spacing_unit"
+          title:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Identity"
+              style: "title_medium_primary_color"
+              alignment: "center"
+          description:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "How you see yourself by influences" # Shortened description
+              style: "body_small_secondary_color"
+              alignment: "center"
+              layout_updates:
+                margin_top: "half_spacing_unit"
+
+      - type: "InteractiveCard"
+        element_id: "thinking_style_card"
+        card_type: "vision_component"
+        interaction: "navigateTo: thinking_style_detail_screen"
+        style: "vision_component_card_elevated"
+        elements:
+          icon:
+            element_type: "Icon"
+            icon_code: "icon_thinking_style_filled" # Filled icon style
+            style: "icon_large_primary_color"
+            layout_updates:
+              margin_bottom: "spacing_unit"
+          title:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Thinking Style" # Shortened title
+              style: "title_medium_primary_color"
+              alignment: "center"
+          description:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Planning, focus, impulse control" # Shortened description
+              style: "body_small_secondary_color"
+              alignment: "center"
+              layout_updates:
+                margin_top: "half_spacing_unit"
+
+      - type: "InteractiveCard"
+        element_id: "biases_card"
+        card_type: "vision_component"
+        interaction: "navigateTo: biases_detail_screen"
+        style: "vision_component_card_elevated"
+        elements:
+          icon:
+            element_type: "Icon"
+            icon_code: "icon_biases_filled" # Filled icon style
+            style: "icon_large_primary_color"
+            layout_updates:
+              margin_bottom: "spacing_unit"
+          title:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Biases" # Shortened title
+              style: "title_medium_primary_color"
+              alignment: "center"
+          description:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Mental shortcuts & decision pitfalls" # Shortened description
+              style: "body_small_secondary_color"
+              alignment: "center"
+              layout_updates:
+                margin_top: "half_spacing_unit"
+
+      - type: "InteractiveCard"
+        element_id: "motivation_card"
+        card_type: "vision_component"
+        interaction: "navigateTo: motivation_detail_screen"
+        style: "vision_component_card_elevated"
+        elements:
+          icon:
+            element_type: "Icon"
+            icon_code: "icon_motivation_filled" # Filled icon style
+            style: "icon_large_primary_color"
+            layout_updates:
+              margin_bottom: "spacing_unit"
+          title:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Motivation"
+              style: "title_medium_primary_color"
+              alignment: "center"
+          description:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "What drives & inspires you" # Shortened description
+              style: "body_small_secondary_color"
+              alignment: "center"
+              layout_updates:
+                margin_top: "half_spacing_unit"
+
+      - type: "InteractiveCard"
+        element_id: "feedback_loops_card"
+        card_type: "vision_component"
+        interaction: "navigateTo: feedback_loops_detail_screen"
+        style: "vision_component_card_elevated"
+        elements:
+          icon:
+            element_type: "Icon"
+            icon_code: "icon_feedback_filled" # Filled icon style
+            style: "icon_large_primary_color"
+            layout_updates:
+              margin_bottom: "spacing_unit"
+          title:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Feedback Loops" # Shortened title
+              style: "title_medium_primary_color"
+              alignment: "center"
+          description:
+            element_type: "TextLabel"
+            property_updates:
+              text:
+                data_source: "static_text"
+                default_value: "Self-reflection & external feedback" # Shortened description
+              style: "body_small_secondary_color"
+              alignment: "center"
+              layout_updates:
+                margin_top: "half_spacing_unit"
+
+  guiding_prompt_section: # Optional section to guide user action
+    element_id: "vision_guiding_prompt_section"
+    type: "Section"
+    style: "guiding_prompt_section_style" # Define style for guiding prompt area
+    layout_updates:
+      margin_top: "2x_spacing_unit"
+    elements:
+      prompt_text:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Tap on each component to explore it further. Consider reflecting on which areas of your Vision of Self you'd like to develop."
+          style: "body_medium_italic_secondary_color" # Italic, secondary color for prompt
+          alignment: "center"
+
+bottom_navigation: # Re-using bottom navigation definition - assuming global
+  inherits_from: "dashboard_screen.bottom_navigation" # Inherit bottom nav from dashboard
+
+left_navigation: # Re-using left navigation - assuming global
+  inherits_from: "dashboard_screen.left_navigation" # Inherit left nav from dashboard
+
+user_info_footer: # Re-using user footer - assuming global
+  inherits_from: "dashboard_screen.user_info_footer" # Inherit user footer from dashboard
+```
