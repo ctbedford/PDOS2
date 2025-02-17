@@ -1,0 +1,235 @@
+```yaml
+page_id: personal_narrative_detail_screen
+page_description: Detail screen for exploring and refining the Personal Narrative component of Vision of Self.
+inherits_style_from: vision_screen # Inherit styles from the main Vision screen for consistency
+
+style_overrides: # Screen-specific style overrides if needed
+  background_color: background_color_white
+
+elements:
+  header_section:
+    element_id: "narrative_detail_header_section"
+    type: "Section"
+    style: "detail_header_section_default" # Define default styling for detail screen headers
+    elements:
+      title_text:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Personal Narrative"
+          style: "h1_detail_screen_title" # Larger title style for detail screens
+          alignment: "center"
+      subtitle_text:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Understanding your life story and meaning-making"
+          style: "body_large_secondary" # Subtitle style
+          alignment: "center"
+        layout_updates:
+          margin_bottom: "2x_spacing_unit"
+
+  explanatory_text_section:
+    element_id: "narrative_explanatory_text_section"
+    type: "Section"
+    style: "explanatory_text_section_default" # Style for explanatory text sections
+    elements:
+      explanatory_paragraph:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: >
+              Your Personal Narrative is the story you tell yourself about your life.
+              A coherent narrative helps you make sense of your past, understand your present,
+              and envision your future. It's a foundation for self-awareness and direction.
+          style: "body_medium_primary_color" # Body text style
+          alignment: "justified" # Or "natural" depending on text length and design
+        layout_updates:
+          margin_bottom: "2x_spacing_unit"
+
+  narrative_prompt_section:
+    element_id: "narrative_prompt_section"
+    type: "Section"
+    style: "prompt_section_default" # Style for sections with prompts/exercises
+    elements:
+      prompt_title:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Reflect on Your Narrative"
+          style: "title_medium_primary_color" # Title for prompt section
+          alignment: "left" # Align title to the left within the section
+          layout_updates:
+            margin_bottom: "spacing_unit"
+
+      key_chapters_input:
+        element_id: "key_chapters_input_area"
+        element_type: "TextAreaInputField" # Multi-line input for chapters
+        property_updates:
+          label:
+            data_source: "static_text"
+            default_value: "Key Life Chapters/Periods"
+          placeholder:
+            data_source: "static_text"
+            default_value: "e.g., Childhood, Education, Early Career, Family Life..."
+          input_type: "text"
+        layout_updates:
+          margin_bottom: "spacing_unit"
+
+      connecting_themes_input:
+        element_id: "connecting_themes_input_area"
+        element_type: "TextAreaInputField"
+        property_updates:
+          label:
+            data_source: "static_text"
+            default_value: "Connecting Themes/Threads"
+          placeholder:
+            data_source: "static_text"
+            default_value: "e.g., Resilience, Learning, Relationships, Independence..."
+          input_type: "text"
+        layout_updates:
+          margin_bottom: "spacing_unit"
+
+      current_narrative_summary_input:
+        element_id: "narrative_summary_input_area"
+        element_type: "TextAreaInputField"
+        property_updates:
+          label:
+            data_source: "static_text"
+            default_value: "Current Narrative Summary"
+          placeholder:
+            data_source: "static_text"
+            default_value: "Write a concise summary of your life story as you understand it now..."
+          input_type: "text"
+        layout_updates:
+          margin_bottom: "2x_spacing_unit"
+
+  ncs_visualization_section: # Section for Narrative Coherence Score visualization
+    element_id: "ncs_visualization_section"
+    type: "Section"
+    style: "visualization_section_default" # Style for visualization sections
+    display_condition: "has_ncs_data" # Only display if NCS data is available
+    elements:
+      ncs_title:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Narrative Coherence Score (NCS)"
+          style: "title_medium_primary_color"
+          alignment: "center"
+          layout_updates:
+            margin_bottom: "spacing_unit"
+      ncs_chart: # Placeholder for actual visualization - could be progress bar, number, etc.
+        element_id: "ncs_score_visualization"
+        element_type: "ProgressBar" # Example: Progress Bar for NCS visualization
+        property_updates:
+          progress_value:
+            data_source: "narrative_coherence_score" # Data source for NCS value
+          progress_max_value: "100" # Example max value for progress bar
+          display_text:
+            data_source: "narrative_coherence_score" # Display NCS value as text
+          style: "progress_bar_primary_color" # Style for progress bar
+
+  third_order_prompts_section:
+    element_id: "third_order_prompts_section"
+    type: "Section"
+    style: "prompt_section_default" # Re-use prompt section style
+    layout_updates:
+      margin_top: "2x_spacing_unit"
+    elements:
+      third_order_title:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Considering 'Third Order' Influences"
+          style: "title_medium_primary_color"
+          alignment: "left"
+          layout_updates:
+            margin_bottom: "spacing_unit"
+
+      cultural_stories_prompt:
+        element_id: "cultural_stories_prompt_label"
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Reflect on cultural stories or societal expectations that have shaped your narrative:"
+          style: "body_medium_secondary_color"
+          alignment: "left"
+          layout_updates:
+            margin_bottom: "half_spacing_unit"
+      cultural_stories_reflection_input:
+        element_id: "cultural_stories_reflection_input_area"
+        element_type: "TextAreaInputField"
+        property_updates:
+          placeholder:
+            data_source: "static_text"
+            default_value: "Your reflections on cultural influences..."
+          input_type: "text"
+        layout_updates:
+          margin_bottom: "spacing_unit"
+
+      language_influence_prompt:
+        element_id: "language_influence_prompt_label"
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Consider how language itself influences the way you frame your past, present, and future:"
+          style: "body_medium_secondary_color"
+          alignment: "left"
+          layout_updates:
+            margin_bottom: "half_spacing_unit"
+      language_influence_reflection_input:
+        element_id: "language_influence_reflection_input_area"
+        element_type: "TextAreaInputField"
+        property_updates:
+          placeholder:
+            data_source: "static_text"
+            default_value: "Your reflections on language influence..."
+          input_type: "text"
+        layout_updates:
+          margin_bottom: "2x_spacing_unit"
+
+  action_buttons_section:
+    element_id: "narrative_action_buttons_section"
+    type: "Section"
+    style: "action_buttons_section_default" # Style for action button sections
+    layout_updates:
+      margin_top: "2x_spacing_unit"
+    elements:
+      reflect_again_button:
+        element_id: "reflect_again_button"
+        element_type: "Button"
+        property_updates:
+          label:
+            data_source: "static_text"
+            default_value: "Reflect Again"
+          style: "secondary_button" # Or outline button style
+          interaction: "reset_narrative_prompts_and_scroll_to_prompts" # Example action
+
+      learn_more_button:
+        element_id: "learn_more_narrative_button"
+        element_type: "ButtonLink" # Button that acts like a link
+        property_updates:
+          label:
+            data_source: "static_text"
+            default_value: "Learn More about Narrative Coherence"
+          style: "text_button_link" # Text-based link style button
+          interaction: "open_resource_link: narrative_coherence_glossary_entry" # Example action - open glossary
+
+bottom_navigation: # Inheriting bottom navigation
+  inherits_from: "vision_screen.bottom_navigation"
+
+left_navigation: # Inheriting left navigation
+  inherits_from: "vision_screen.left_navigation"
+
+user_info_footer: # Inheriting user footer
+  inherits_from: "vision_screen.user_info_footer"
+```
