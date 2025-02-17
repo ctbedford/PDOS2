@@ -9,6 +9,7 @@ import Dashboard from "@/pages/dashboard";
 import Vision from "@/pages/vision";
 import Context from "@/pages/context";
 import Strategies from "@/pages/strategies";
+import PersonalNarrative from "@/pages/vision/narrative";
 import { ProtectedRoute } from "./lib/protected-route";
 
 function Router() {
@@ -17,6 +18,7 @@ function Router() {
       <Route path="/auth" component={AuthPage} />
       <ProtectedRoute path="/" component={Dashboard} />
       <ProtectedRoute path="/vision" component={Vision} />
+      <ProtectedRoute path="/vision/narrative" component={PersonalNarrative} />
       <ProtectedRoute path="/context" component={Context} />
       <ProtectedRoute path="/strategies" component={Strategies} />
       <Route component={NotFound} />
