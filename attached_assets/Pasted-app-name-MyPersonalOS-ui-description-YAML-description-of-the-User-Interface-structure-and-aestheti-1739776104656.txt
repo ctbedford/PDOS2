@@ -1,0 +1,558 @@
+app_name: MyPersonalOS
+ui_description: YAML description of the User Interface structure and aesthetic elements.
+global_style:
+  color_palette: "Cool and Calm" # e.g., "Cool and Calm", "Energetic", "Minimalist Mono"
+  font_family: "System Default Sans-Serif" # or specify a font
+  icon_style: "Outline" # e.g., "Outline", "Filled", "Duotone"
+  spacing_unit: "8dp" # Define base spacing unit for consistent padding/margin
+  primary_color: "#42a5f5" # Blue accent color
+  secondary_color: "#66bb6a" # Green for positive reinforcement
+  text_color_primary: "#333" # Dark grey for main text
+  text_color_secondary: "#555" # Medium grey for labels, captions
+  background_color_light: "#f0f0f0" # Light grey background
+  background_color_white: "#fff" # White background for cards, screens
+
+screens:
+  dashboard_screen:
+    title: "My Self-OS Overview" # Screen Title
+    style:
+      background_color: background_color_light
+    elements:
+      vision_progress_chart_card: # Card containing the chart
+        type: "Card"
+        style: "elevated" # e.g., "flat", "elevated", "outlined"
+        elements:
+          chart_title:
+            type: "TextLabel"
+            text: "Emergent Properties Performance"
+            style: "title_medium" # e.g., "h1", "h2", "title_large", "title_medium", "body_large", "body_medium", "caption"
+            alignment: "center"
+            margin_bottom: "spacing_unit"
+          vision_progress_chart: # Unique ID for element
+            type: "DonutChart"
+            data_source: "Emergent Properties Metrics" # Placeholder for data source
+            segments: # Placeholder segment data - replace with actual metric names
+              - label: "Self-Awareness"
+                value: "75" # Placeholder
+                percentage: "22%" # Placeholder
+                color: "segment_color_1" # Referencing color from global or screen palette - define these later if needed
+                interaction: "navigateTo: self_awareness_detail_screen" # Example interaction
+              - label: "Resilience"
+                value: "60"
+                percentage: "18%"
+                color: "segment_color_2"
+                interaction: "navigateTo: resilience_detail_screen"
+              - label: "Adaptive Capacity"
+                value: "82"
+                percentage: "25%"
+                color: "segment_color_3"
+                interaction: "navigateTo: adaptive_capacity_detail_screen"
+              - label: "Decision-Making Quality"
+                value: "68"
+                percentage: "20%"
+                color: "segment_color_4"
+                interaction: "navigateTo: decision_making_detail_screen"
+              - label: "Emotional Regulation"
+                value: "70"
+                percentage: "15%"
+                color: "segment_color_5"
+                interaction: "navigateTo: emotional_regulation_detail_screen"
+            chart_style:
+              segment_spacing: "2dp"
+              value_text_style: "bold, color_white"
+              percentage_text_style: "normal, color_white, size_small"
+          metric_labels_grid: # Grid of labels below the chart
+            type: "Grid"
+            columns: 5 # Adjusted to 5 columns to fit labels better
+            elements: # Placeholder labels, use actual metric short names
+              - type: "TextLabel"
+                text: "SA"
+                style: "caption"
+              - type: "TextLabel"
+                text: "R"
+                style: "caption"
+              - type: "TextLabel"
+                text: "AC"
+                style: "caption"
+              - type: "TextLabel"
+                text: "DMQ"
+                style: "caption"
+              - type: "TextLabel"
+                text: "ER"
+                style: "caption"
+      top_tab_navigation: # Tabs for "Reflect, Plan, Learn"
+        type: "HorizontalTabs"
+        tabs:
+          - label: "Reflect"
+            is_active: true
+            interaction: "switchContent: reflect_content"
+          - label: "Plan"
+            is_active: false
+            interaction: "switchContent: plan_content"
+          - label: "Learn"
+            is_active: false
+            interaction: "switchContent: learn_content"
+      dashboard_insights_section: # Example section for insights below tabs
+        type: "Section"
+        title: "Quick Insights"
+        style: "card_list" # Style can define background, padding, etc.
+        elements:
+          - type: "InfoCard" # Example card for insights
+            title: "Resilience Needs Focus"
+            description: "Your Resilience score is lower than average. Explore strategies to improve it."
+            icon: "icon_warning" # Warning icon
+            interaction: "navigateTo: resilience_detail_screen"
+          - type: "InfoCard"
+            title: "Great Self-Awareness!"
+            description: "Your Self-Awareness is strong! Keep reflecting."
+            icon: "icon_positive" # Positive icon
+            interaction: "navigateTo: self_awareness_detail_screen"
+      footer_text:
+        type: "TextLabel"
+        text: "Personal Growth Journey - MyPersonalOS v1.0"
+        style: "footer"
+        alignment: "center"
+
+  vision_screen:
+    title: "Vision of Self"
+    style:
+      background_color: background_color_white
+    elements:
+      header_text:
+        type: "TextLabel"
+        text: "Explore and refine your internal landscape."
+        style: "body_medium"
+        alignment: "center"
+        margin_bottom: "2x_spacing_unit" # 2x spacing unit for larger margin
+      vision_components_list:
+        type: "CardList" # Using CardList for better visual grouping
+        items:
+          - type: "ListItemCard" # Card for each Vision component
+            title: "Personal Narrative"
+            description: "Your life story & meaning-making"
+            interaction: "navigateTo: narrative_detail_screen"
+            icon: "icon_story" # Placeholder icon name
+            style: "elevated_list_item" # Style for listItem cards
+          - type: "ListItemCard"
+            title: "Goals & Aspirations"
+            description: "What you aim to achieve"
+            interaction: "navigateTo: goals_detail_screen"
+            icon: "icon_goals"
+            style: "elevated_list_item"
+          - type: "ListItemCard"
+            title: "Values & Beliefs"
+            description: "Your core guiding principles"
+            interaction: "navigateTo: values_detail_screen"
+            icon: "icon_values"
+            style: "elevated_list_item"
+          - type: "ListItemCard"
+            title: "Skills (Strengths & Weaknesses)"
+            description: "Your abilities & areas for growth"
+            interaction: "navigateTo: skills_detail_screen"
+            icon: "icon_skills"
+            style: "elevated_list_item"
+          - type: "ListItemCard"
+            title: "Identity"
+            description: "How you see yourself shaped by influences"
+            interaction: "navigateTo: identity_detail_screen"
+            icon: "icon_identity"
+            style: "elevated_list_item"
+          - type: "ListItemCard"
+            title: "Thinking Style (Executive Function)"
+            description: "Planning, focus, impulse control"
+            interaction: "navigateTo: executive_function_detail_screen"
+            icon: "icon_thinking_style"
+            style: "elevated_list_item"
+          - type: "ListItemCard"
+            title: "Biases (Cognitive Biases)"
+            description: "Mental shortcuts & decision pitfalls"
+            interaction: "navigateTo: biases_detail_screen"
+            icon: "icon_biases"
+            style: "elevated_list_item"
+          - type: "ListItemCard"
+            title: "Motivation"
+            description: "What drives & inspires you"
+            interaction: "navigateTo: motivation_detail_screen"
+            icon: "icon_motivation"
+            style: "elevated_list_item"
+          - type: "ListItemCard"
+            title: "Feedback Loops"
+            description: "Self-reflection & external feedback"
+            interaction: "navigateTo: feedback_loops_detail_screen"
+            icon: "icon_feedback"
+            style: "elevated_list_item"
+
+  context_screen:
+    title: "Context of Life Building"
+    style:
+      background_color: background_color_white
+    elements:
+      header_text:
+        type: "TextLabel"
+        text: "Understand your external influences and environment."
+        style: "body_medium"
+        alignment: "center"
+        margin_bottom: "2x_spacing_unit"
+      context_factors_list:
+        type: "List" # Simple list for Context factors - could be CardList too
+        items:
+          - type: "ListItem" # Using basic ListItem for simpler context screen
+            title: "Life Stage"
+            description: "Student, Professional, Parent, etc."
+            interaction: "navigateTo: life_stage_detail_screen"
+            icon: "icon_life_stage"
+            style: "default_list_item" # Basic list item style
+          - type: "ListItem"
+            title: "Life Domains"
+            description: "Career, Relationships, Health, Growth."
+            interaction: "navigateTo: life_domains_detail_screen"
+            icon: "icon_domains"
+            style: "default_list_item"
+          - type: "ListItem"
+            title: "Social & Cultural Context"
+            description: "Culture, Socioeconomic factors."
+            interaction: "navigateTo: social_context_detail_screen"
+            icon: "icon_culture"
+            style: "default_list_item"
+          - type: "ListItem"
+            title: "Technology"
+            description: "Impact of social media, AI, etc."
+            interaction: "navigateTo: technology_impact_detail_screen"
+            icon: "icon_technology"
+            style: "default_list_item"
+
+  strategies_screen: # Or Resources Screen
+    title: "Strategies & Resources"
+    style:
+      background_color: background_color_white
+    elements:
+      header_text:
+        type: "TextLabel"
+        text: "Explore strategies to enhance your Personal OS."
+        style: "body_medium"
+        alignment: "center"
+        margin_bottom: "2x_spacing_unit"
+      strategy_categories_grid:
+        type: "Grid"
+        columns: 2
+        items:
+          - type: "CategoryCard" # Custom card type for strategy categories
+            title: "Executive Function"
+            description: "Enhance planning, focus, control."
+            icon: "icon_executive_function"
+            interaction: "navigateTo: executive_function_strategies_screen"
+            style: "strategy_category_card"
+          - type: "CategoryCard"
+            title: "Cognitive Bias Mitigation"
+            description: "Overcome mental shortcuts."
+            icon: "icon_cognitive_bias"
+            interaction: "navigateTo: cognitive_bias_strategies_screen"
+            style: "strategy_category_card"
+          - type: "CategoryCard"
+            title: "Motivation Enhancement"
+            description: "Increase your drive & commitment."
+            icon: "icon_motivation_enhancement"
+            interaction: "navigateTo: motivation_enhancement_strategies_screen"
+            style: "strategy_category_card"
+          - type: "CategoryCard"
+            title: "Emotional Regulation"
+            description: "Manage emotions effectively."
+            icon: "icon_emotional_regulation"
+            interaction: "navigateTo: emotional_regulation_strategies_screen"
+            style: "strategy_category_card"
+          - type: "CategoryCard"
+            title: "Self-Efficacy Building"
+            description: "Boost your belief in success."
+            icon: "icon_self_efficacy"
+            interaction: "navigateTo: self_efficacy_strategies_screen"
+            style: "strategy_category_card"
+          - type: "CategoryCard"
+            title: "Goal-Setting & Planning"
+            description: "Effective goal achievement."
+            icon: "icon_goal_setting"
+            interaction: "navigateTo: goal_setting_strategies_screen"
+            style: "strategy_category_card"
+
+  executive_function_strategies_screen: # Example detail screen for a Strategy Category
+    title: "Executive Function Strategies"
+    style:
+      background_color: background_color_white
+    elements:
+      header_text:
+        type: "TextLabel"
+        text: "Strategies to improve your Planning, Focus, and Control."
+        style: "body_medium"
+        alignment: "center"
+        margin_bottom: "2x_spacing_unit"
+      strategy_list:
+        type: "List" # List of specific strategies
+        items:
+          - type: "ListItem"
+            title: "Time Management Techniques (Pomodoro, Time Blocking)"
+            description: "Learn and apply time management methods."
+            interaction: "navigateTo: strategy_detail_time_management"
+            style: "default_list_item"
+          - type: "ListItem"
+            title: "Mindfulness & Meditation"
+            description: "Practice mindfulness for focus & impulse control."
+            interaction: "navigateTo: strategy_detail_mindfulness"
+            style: "default_list_item"
+          - type: "ListItem"
+            title: "Prioritization Methods (Eisenhower Matrix)"
+            description: "Learn to prioritize tasks effectively."
+            interaction: "navigateTo: strategy_detail_prioritization"
+            style: "default_list_item"
+          # ... more Executive Function strategies
+
+  strategy_detail_time_management: # Example Detail Screen for a Specific Strategy
+    title: "Time Management Techniques"
+    style:
+      background_color: background_color_white
+    elements:
+      strategy_title:
+        type: "TextLabel"
+        text: "Time Management Techniques (Pomodoro, Time Blocking)"
+        style: "h2" # Or title_large
+        alignment: "center"
+        margin_bottom: "spacing_unit"
+      strategy_description_text:
+        type: "TextLabel"
+        text: "Improve your ability to plan and manage your time effectively using techniques like the Pomodoro Technique and Time Blocking. This strategy helps enhance your executive function by structuring your work and focus periods."
+        style: "body_medium"
+        margin_bottom: "2x_spacing_unit"
+      strategy_steps_list:
+        type: "NumberedList" # Ordered list for steps
+        items:
+          - "Learn about the Pomodoro Technique and Time Blocking."
+          - "Choose a technique and adapt it to your schedule."
+          - "Experiment with different time intervals for work and breaks."
+          - "Track your time and adjust your approach based on what works best."
+      call_to_action_button:
+        type: "Button"
+        label: "Start Time Management Practice"
+        style: "primary_button"
+        interaction: "start_timer_feature: time_management" # Example action - start a timer feature
+
+  goals_screen:
+    title: "My Goals"
+    style:
+      background_color: background_color_white
+    elements:
+      header_text:
+        type: "TextLabel"
+        text: "Track and manage your personal growth goals."
+        style: "body_medium"
+        alignment: "center"
+        margin_bottom: "2x_spacing_unit"
+      active_goals_list:
+        type: "List" # List of user's set goals - consider CardList for richer UI
+        items:
+          - type: "GoalListItem" # Custom list item type for goals
+            title: "Improve Emotional Regulation"
+            status: "In Progress"
+            progress: "60%" # Placeholder
+            interaction: "navigateTo: goal_detail_screen_1"
+            style: "goal_list_item"
+            indicators: # Example indicators for GoalListItem
+              - type: "ProgressBar"
+                value: "60%"
+              - type: "StatusBadge"
+                text: "In Progress"
+                color: "secondary_color" # Green for "In Progress"
+          - type: "GoalListItem"
+            title: "Enhance Narrative Coherence"
+            status: "Active"
+            progress: "30%"
+            interaction: "navigateTo: goal_detail_screen_2"
+            style: "goal_list_item"
+            indicators:
+              - type: "ProgressBar"
+                value: "30%"
+              - type: "StatusBadge"
+                text: "Active"
+                color: "primary_color" # Blue for "Active"
+          # ... (more goals)
+      add_goal_button:
+        type: "FloatingActionButton"
+        icon: "icon_add"
+        interaction: "navigateTo: create_goal_screen"
+        style: "fab_primary" # Style for FAB
+
+  create_goal_screen: # Example screen for creating a new goal
+    title: "Create New Goal"
+    style:
+      background_color: background_color_white
+    elements:
+      goal_name_input:
+        type: "TextInputField"
+        label: "Goal Title"
+        placeholder: "e.g., 'Improve Decision Making'"
+        input_type: "text"
+      goal_description_input:
+        type: "TextAreaInputField" # For multi-line description
+        label: "Goal Description (Optional)"
+        placeholder: "Describe your goal in more detail..."
+      goal_category_dropdown:
+        type: "Dropdown"
+        label: "Category"
+        options_source: "Goal Categories List" # Placeholder source for options
+        placeholder: "Select Goal Category"
+      start_date_picker:
+        type: "DatePicker"
+        label: "Start Date"
+        placeholder: "Select Start Date"
+      due_date_picker:
+        type: "DatePicker"
+        label: "Due Date (Optional)"
+        placeholder: "Select Due Date"
+      create_button:
+        type: "Button"
+        label: "Create Goal"
+        style: "primary_button"
+        interaction: "save_new_goal"
+      cancel_button:
+        type: "Button"
+        label: "Cancel"
+        style: "secondary_button" # Or "text_button" for less prominent
+
+  journal_screen:
+    title: "Reflection Journal"
+    style:
+      background_color: background_color_white
+    elements:
+      header_text:
+        type: "TextLabel"
+        text: "Capture your reflections and insights."
+        style: "body_medium"
+        alignment: "center"
+        margin_bottom: "2x_spacing_unit"
+      journal_entry_list:
+        type: "List" # List of journal entries - consider CardList
+        items:
+          - type: "JournalEntryListItem" # Custom list item for journal entry
+            title: "Evening Reflection - Oct 26, 2023"
+            preview: "Reflected on feedback from mentor..." # Short preview
+            date: "Oct 26, 2023"
+            interaction: "navigateTo: journal_entry_detail_1"
+            style: "journal_entry_list_item"
+          # ... (more journal entries)
+      new_entry_button:
+        type: "FloatingActionButton"
+        icon: "icon_new_journal"
+        interaction: "navigateTo: create_journal_entry_screen"
+        style: "fab_primary"
+
+  create_journal_entry_screen:
+    title: "New Journal Entry"
+    style:
+      background_color: background_color_white
+    elements:
+      entry_title_input:
+        type: "TextInputField"
+        label: "Entry Title (Optional)"
+        placeholder: "e.g., 'Evening Reflection'"
+        input_type: "text"
+      entry_content_textarea:
+        type: "TextAreaInputField"
+        label: "Your Reflections"
+        placeholder: "Write your thoughts and reflections here..."
+      date_display:
+        type: "TextLabel"
+        text: "Today's Date" # Dynamically display current date
+        style: "caption_secondary" # Lighter caption style
+        alignment: "right"
+      save_entry_button:
+        type: "Button"
+        label: "Save Entry"
+        style: "primary_button"
+        interaction: "save_journal_entry"
+      cancel_button:
+        type: "Button"
+        label: "Discard"
+        style: "text_button" # Simple text button for discard
+
+  community_screen: # Optional - if community features are included
+    title: "Community Forum"
+    style:
+      background_color: background_color_white
+    elements:
+      header_text:
+        type: "TextLabel"
+        text: "Connect and share with others on a growth journey." # Optional Community feature
+        style: "body_medium"
+        alignment: "center"
+        margin_bottom: "2x_spacing_unit"
+      forum_post_list:
+        type: "List" # List of forum posts - consider CardList for richer display
+        items:
+          - type: "ForumPostListItem" # Custom list item for forum posts
+            title: "Sharing my progress on resilience!"
+            author: "User123"
+            preview: "Just wanted to share a small win in..." # Short preview
+            date: "2 days ago"
+            interaction: "navigateTo: forum_post_1"
+            style: "forum_post_list_item"
+          # ... (more posts)
+      create_post_button:
+        type: "FloatingActionButton" # FAB for creating new post
+        icon: "icon_create_post"
+        interaction: "navigateTo: create_forum_post_screen"
+        style: "fab_primary"
+
+  settings_screen:
+    title: "Settings"
+    style:
+      background_color: background_color_white
+    elements:
+      settings_options_list:
+        type: "List"
+        items:
+          - type: "ListItem"
+            title: "Account"
+            interaction: "navigateTo: account_settings_screen"
+            style: "settings_list_item"
+          - type: "ListItem"
+            title: "Notifications"
+            interaction: "navigateTo: notification_settings_screen"
+            style: "settings_list_item"
+          - type: "ListItem"
+            title: "Privacy"
+            interaction: "navigateTo: privacy_settings_screen"
+            style: "settings_list_item"
+          - type: "ListItem"
+            title: "Appearance" # Theme settings (Dark Mode, etc.)
+            interaction: "navigateTo: appearance_settings_screen"
+            style: "settings_list_item"
+          - type: "ListItem"
+            title: "Help & Support"
+            interaction: "navigateTo: help_support_screen"
+            style: "settings_list_item"
+
+bottom_navigation: # Global bottom navigation across main screens
+  type: "BottomNavigationBar"
+  style: "default_bottom_nav"
+  items:
+    - label: "Home"
+      icon: "icon_home" # Placeholder icon name
+      screen: "dashboard_screen"
+      is_active: true # Default active tab on app load
+    - label: "Vision"
+      icon: "icon_vision"
+      screen: "vision_screen"
+      is_active: false
+    - label: "Context"
+      icon: "icon_context"
+      screen: "context_screen"
+      is_active: false
+    - label: "Strategies" # Or Resources
+      icon: "icon_strategies"
+      screen: "strategies_screen"
+      is_active: false
+    - label: "Journal"
+      icon: "icon_journal"
+      screen: "journal_screen"
+      is_active: false # Journal added to bottom nav
+    - label: "Community" # Optional
+      icon: "icon_community"
+      screen: "community_screen"
+      is_active: false
