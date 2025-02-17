@@ -1,0 +1,193 @@
+```yaml
+page_id: dashboard_screen
+page_description: Defines how to dynamically update the Dashboard screen elements with data and user interactions.
+
+update_triggers: # Events that can trigger UI updates
+  - data_load: "App startup or user login - initial data population"
+  - metric_calculation_update: "When Emergent Property metrics are recalculated (e.g., after strategy implementation, journaling, feedback integration)"
+  - daily_event_trigger: "Daily refresh for 'Daily Reflection' prompt and 'Quick Insights'"
+  - user_interaction: "User actions like tab switching (Reflect, Plan, Learn), clicking on chart segments, dismissing insights"
+
+elements:
+  emergent_properties_performance_panel:
+    element_id: "emergent_properties_performance_panel"
+    description: "Panel containing the Emergent Properties donut chart and title"
+    components:
+      panel_title:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text" # Could be from localization or config
+            default_value: "Emergent Properties Performance"
+      donut_chart:
+        element_id: "emergent_properties_chart"
+        element_type: "DonutChart"
+        property_updates:
+          segments: # Array of segment objects
+            data_source: "emergent_properties_metrics" # Data source key
+            data_structure: # Example data structure from data_source
+              - metric_id: "self_awareness" # Key matching metric ID
+                label: "Self-Awareness (SA)" # Display label
+                value: "75" # Current metric value (number or string)
+                percentage: "22%" # Percentage for donut segment display
+                color_code: "color_palette.segment_color_1" # Reference to global color palette
+                tooltip_text: "Your understanding of yourself and your internal states." # Detailed description
+                interaction: "navigateTo: self_awareness_detail_screen" # Action on segment click
+              - metric_id: "resilience"
+                label: "Resilience (R)"
+                value: "60"
+                percentage: "18%"
+                color_code: "color_palette.segment_color_2"
+                tooltip_text: "Your ability to bounce back from setbacks and stress."
+                interaction: "navigateTo: resilience_detail_screen"
+              - metric_id: "adaptive_capacity"
+                label: "Adaptive Capacity (AC)"
+                value: "82"
+                percentage: "25%"
+                color_code: "color_palette.segment_color_3"
+                tooltip_text: "Your capacity to learn and adapt to new situations."
+                interaction: "navigateTo: adaptive_capacity_detail_screen"
+              - metric_id: "decision_making_quality"
+                label: "Decision-Making (DMQ)"
+                value: "68"
+                percentage: "20%"
+                color_code: "color_palette.segment_color_4"
+                tooltip_text: "The quality of your choices aligned with your goals and values."
+                interaction: "navigateTo: decision_making_detail_screen"
+              - metric_id: "emotional_regulation"
+                label: "Emotional Reg. (ER)"
+                value: "70"
+                percentage: "15%"
+                color_code: "color_palette.segment_color_5"
+                tooltip_text: "Your ability to manage and regulate your emotions effectively."
+                interaction: "navigateTo: emotional_regulation_detail_screen"
+            chart_style_updates: # If chart styling needs dynamic updates
+              segment_spacing: "2dp" # Example, could be data-driven if needed
+              value_text_style: "bold, color_white"
+              percentage_text_style: "normal, color_white, size_small"
+          empty_state: # What to display if data source is empty or loading
+            display_condition: "emergent_properties_metrics.is_empty" # Condition to check data source status
+            element_type: "PlaceholderGraphic" # Or TextLabel with message
+            graphic_type: "donut_outline" # Example placeholder graphic type
+            placeholder_text: "Metrics Loading..." # Optional placeholder text
+
+  quick_insights_panel:
+    element_id: "quick_insights_panel"
+    description: "Panel displaying dynamic 'Quick Insights' messages"
+    components:
+      panel_title:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Quick Insights"
+      insights_list:
+        element_id: "dashboard_insights_list"
+        element_type: "List" # Or could be CardList for richer insights
+        property_updates:
+          items: # Array of insight objects
+            data_source: "dashboard_insights_data" # Data source key
+            data_structure: # Example data structure for insights
+              - insight_id: "insight_resilience_focus"
+                type: "warning" # Insight type for styling (warning, positive, neutral)
+                icon_code: "icon_warning" # Icon to display (from icon library)
+                text: "Resilience Needs Focus"
+                detail_text: "Your Resilience score is lower than average. Explore strategies to improve it."
+                interaction: "navigateTo: resilience_strategies_screen" # Action on insight click
+              - insight_id: "insight_self_awareness_good"
+                type: "positive"
+                icon_code: "icon_positive"
+                text: "Great Self-Awareness!"
+                detail_text: "Your Self-Awareness is strong! Keep reflecting."
+                interaction: "navigateTo: self_awareness_detail_screen"
+            list_style_updates: # If list style needs dynamic changes
+              item_spacing: "spacing_unit"
+
+  daily_reflection_section:
+    element_id: "daily_reflection_section"
+    description: "Section for daily reflection prompts and 'Reflect, Plan, Learn' tabs"
+    components:
+      section_title:
+        element_type: "TextLabel"
+        property_updates:
+          text:
+            data_source: "static_text"
+            default_value: "Daily Reflection" # Or "Today's Focus" etc.
+      top_tab_navigation: # Re-using tab navigation definition
+        element_id: "daily_reflection_tabs"
+        type: "HorizontalTabs" # Referencing the tab definition from main YAML
+        property_updates:
+          tabs: # Array of tab objects, could be simpler here if static labels
+            data_source: "static_tabs_reflect_plan_learn" # Or could be hardcoded here if tabs are fixed
+            data_structure: # Example tab data structure (if dynamic tabs were needed)
+              - tab_id: "reflect_tab"
+                label: "Reflect"
+                is_active: true # Dynamically set active based on current tab
+                interaction: "switchContent: daily_reflection_reflect_content"
+              - tab_id: "plan_tab"
+                label: "Plan"
+                is_active: false
+                interaction: "switchContent: daily_reflection_plan_content"
+              - tab_id: "learn_tab"
+                label: "Learn"
+                is_active: false
+                interaction: "switchContent: daily_reflection_learn_content"
+      tab_content_area: # Area below tabs to display content based on active tab
+        element_id: "daily_reflection_tab_content"
+        element_type: "Container" # Or specific content type (e.g., JournalEntryInput, PromptDisplay)
+        property_updates:
+          content: # Content to display - could be complex structure depending on tab
+            data_source: "daily_reflection_tab_content_source" # Data source changes based on active tab
+            data_structure: # Example structure - highly dependent on content type
+              reflect_content:
+                element_type: "JournalPrompt"
+                prompt_text: "Reflect on a recent situation where you felt your resilience was tested. What strategies did you use? What did you learn?" # Dynamic daily prompt
+              plan_content:
+                element_type: "ActionSuggestion"
+                suggestion_text: "Consider scheduling 15 minutes for mindfulness meditation today to boost your emotional regulation." # Dynamic suggestion
+              learn_content:
+                element_type: "StrategyTip"
+                tip_title: "Strategy Spotlight: Cognitive Restructuring"
+                tip_text: "Cognitive restructuring helps challenge and change negative thought patterns. Try to identify a negative thought and reframe it in a more positive or realistic way." # Dynamic tip
+
+left_navigation: # Assuming left nav is also dynamically updated based on state
+  element_id: "left_nav_sidebar"
+  element_type: "VerticalNavigation"
+  property_updates:
+    navigation_items: # Array of navigation item objects
+      data_source: "app_navigation_items" # Data source for navigation items
+      data_structure: # Example data structure for nav items
+        - item_id: "nav_dashboard"
+          label: "Dashboard"
+          icon_code: "icon_dashboard_sidebar" # Sidebar specific dashboard icon
+          screen_target: "dashboard_screen"
+          is_active: true # Dynamically set active based on current screen
+        - item_id: "nav_vision"
+          label: "Vision"
+          icon_code: "icon_vision_sidebar"
+          screen_target: "vision_screen"
+          is_active: false
+        - item_id: "nav_context"
+          label: "Context"
+          icon_code: "icon_context_sidebar"
+          screen_target: "context_screen"
+          is_active: false
+        - item_id: "nav_strategies"
+          label: "Strategies"
+          icon_code: "icon_strategies_sidebar"
+          screen_target: "strategies_screen"
+          is_active: false
+        - item_id: "nav_journal" # Example: Journal in sidebar nav too
+          label: "Journal"
+          icon_code: "icon_journal_sidebar"
+          screen_target: "journal_screen"
+          is_active: false
+
+user_info_footer: # Example dynamic footer with user info
+  element_id: "user_footer"
+  element_type: "FooterSection"
+  property_updates:
+    user_name:
+      data_source: "user_profile_data.name" # Example path to user name in user data
+    logout_button_interaction: "logout_action" # Action to trigger on logout button click
+```
