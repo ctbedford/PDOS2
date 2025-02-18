@@ -1,5 +1,5 @@
-import { users, metrics, goals, journalEntries } from "@shared/schema";
-import type { User, InsertUser, Metrics, Goal, JournalEntry } from "@shared/schema";
+import { users, metrics, goals, journalEntries, personalNarratives } from "@shared/schema";
+import type { User, InsertUser, Metrics, Goal, JournalEntry, PersonalNarrative, InsertPersonalNarrative } from "@shared/schema";
 import session from "express-session";
 import createMemoryStore from "memorystore";
 
@@ -16,6 +16,8 @@ export interface IStorage {
   createGoal(goal: Omit<Goal, "id">): Promise<Goal>;
   getUserJournalEntries(userId: number): Promise<JournalEntry[]>;
   createJournalEntry(entry: Omit<JournalEntry, "id">): Promise<JournalEntry>;
+  getUserNarrative(userId: number): Promise<PersonalNarrative | undefined>;
+  createOrUpdateNarrative(narrative: InsertPersonalNarrative): Promise<PersonalNarrative>;
 }
 
 export class MemStorage implements IStorage {
@@ -24,6 +26,7 @@ export class MemStorage implements IStorage {
   private metrics: Map<number, Metrics>;
   private goals: Map<number, Goal>;
   private journalEntries: Map<number, JournalEntry>;
+  private narratives: Map<number, PersonalNarrative>;
   private currentId: { [key: string]: number };
 
   constructor() {
@@ -34,11 +37,13 @@ export class MemStorage implements IStorage {
     this.metrics = new Map();
     this.goals = new Map();
     this.journalEntries = new Map();
+    this.narratives = new Map();
     this.currentId = {
       users: 1,
       metrics: 1,
       goals: 1,
       journalEntries: 1,
+      narratives: 1,
     };
   }
 
@@ -100,6 +105,26 @@ export class MemStorage implements IStorage {
     const newEntry = { ...entry, id };
     this.journalEntries.set(id, newEntry);
     return Promise.resolve(newEntry);
+  }
+
+  async getUserNarrative(userId: number): Promise<PersonalNarrative | undefined> {
+    return Array.from(this.narratives.values()).find(
+      (narrative) => narrative.userId === userId,
+    );
+  }
+
+  async createOrUpdateNarrative(narrative: InsertPersonalNarrative): Promise<PersonalNarrative> {
+    const existingNarrative = await this.getUserNarrative(narrative.userId);
+    const id = existingNarrative?.id ?? this.currentId.narratives++;
+    const now = new Date();
+    const newNarrative = {
+      ...narrative,
+      id,
+      createdAt: existingNarrative?.createdAt ?? now,
+      updatedAt: now,
+    };
+    this.narratives.set(id, newNarrative);
+    return newNarrative;
   }
 }
 

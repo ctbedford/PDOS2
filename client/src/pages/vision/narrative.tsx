@@ -4,11 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Book, RotateCcw, ExternalLink } from "lucide-react";
+import { Book, RotateCcw, ExternalLink, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { type PersonalNarrative } from "@shared/schema";
+import { queryClient, apiRequest } from "@/lib/queryClient";
 
 const narrativeSchema = z.object({
   keyChapters: z.string().min(1, "Please share at least one key chapter of your life"),
@@ -23,24 +27,60 @@ type NarrativeForm = z.infer<typeof narrativeSchema>;
 export default function PersonalNarrative() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { user } = useAuth();
+
+  const { data: narrative, isLoading } = useQuery<PersonalNarrative>({
+    queryKey: ["/api/narrative"],
+    enabled: !!user,
+  });
 
   const form = useForm<NarrativeForm>({
     resolver: zodResolver(narrativeSchema),
     defaultValues: {
-      keyChapters: "",
-      connectingThemes: "",
-      narrativeSummary: "",
-      culturalStories: "",
-      languageInfluence: "",
+      keyChapters: narrative?.keyChapters ?? "",
+      connectingThemes: narrative?.connectingThemes ?? "",
+      narrativeSummary: narrative?.narrativeSummary ?? "",
+      culturalStories: narrative?.culturalStories ?? "",
+      languageInfluence: narrative?.languageInfluence ?? "",
     },
   });
 
+  const saveNarrativeMutation = useMutation({
+    mutationFn: async (data: NarrativeForm) => {
+      const res = await apiRequest("POST", "/api/narrative", {
+        ...data,
+        userId: user!.id,
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/narrative"] });
+      toast({
+        title: "Narrative Updated",
+        description: "Your personal narrative has been saved successfully.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to save",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="flex items-center justify-center min-h-screen">
+          <Loader2 className="h-8 w-8 animate-spin text-border" />
+        </div>
+      </Layout>
+    );
+  }
+
   const onSubmit = (data: NarrativeForm) => {
-    console.log(data);
-    toast({
-      title: "Narrative Updated",
-      description: "Your personal narrative has been saved successfully.",
-    });
+    saveNarrativeMutation.mutate(data);
   };
 
   return (

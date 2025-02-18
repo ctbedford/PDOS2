@@ -59,3 +59,24 @@ export type User = typeof users.$inferSelect;
 export type Metrics = typeof metrics.$inferSelect;
 export type Goal = typeof goals.$inferSelect;
 export type JournalEntry = typeof journalEntries.$inferSelect;
+
+export const personalNarratives = pgTable("personal_narratives", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  keyChapters: text("key_chapters").notNull(),
+  connectingThemes: text("connecting_themes").notNull(),
+  narrativeSummary: text("narrative_summary").notNull(),
+  culturalStories: text("cultural_stories").notNull(),
+  languageInfluence: text("language_influence").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+export const insertPersonalNarrativeSchema = createInsertSchema(personalNarratives).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertPersonalNarrative = z.infer<typeof insertPersonalNarrativeSchema>;
+export type PersonalNarrative = typeof personalNarratives.$inferSelect;
