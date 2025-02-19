@@ -1,10 +1,19 @@
 import express, { type Request, Response, NextFunction } from "express";
+import session from 'express-session';
+import dotenv from 'dotenv';
+dotenv.config();
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'fallbacksecret',
+  resave: false,
+  saveUninitialized: false,
+}));
 
 app.use((req, res, next) => {
   const start = Date.now();
